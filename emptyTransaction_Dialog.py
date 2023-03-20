@@ -22,7 +22,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(386, 112)
+        Dialog.resize(404, 112)
         self.verticalLayout = QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label = QLabel(Dialog)
@@ -54,7 +54,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Discription/Amount Fields Empty", None))
         self.label.setText(QCoreApplication.translate("Dialog", u"Description and Amount must be filled out.", None))
     # retranslateUi
 

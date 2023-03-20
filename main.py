@@ -5,28 +5,37 @@ from PySide6.QtWidgets import (
     QComboBox, QPlainTextEdit, QLineEdit, QDialog
 )
 from PySide6 import QtWidgets
-from PySide6.QtGui import QRegularExpressionValidator, QValidator
+from PySide6.QtGui import QRegularExpressionValidator
 from PySide6.QtCore import QRegularExpression
-
 import pandas as pd
 import openpyxl
-
 import sys
 
 # Import database spreadsheet
-transaction_data = pd.read_excel('transactionsSpreadsheet.xlsx', 0, parse_dates=['Date'])
+transaction_data = pd.read_excel('transactionsSpreadsheet.xlsx', 0)
+
 accounts_data = pd.read_excel('transactionsSpreadsheet.xlsx', 1)
+
+
+class EmptyTransactionDlg(Ui_Dialog, QDialog):
+    """Transaction Empty Dialog Box"""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.setupUi(self)
-
         self.transaction_table = self.findChild(QTableWidget, "transaction_table")
+        # Transaction table modified signal creation.
+        self.transaction_table.cellChanged.connect(self.transaction_table_modified)
+        self.transaction_data_flag = False
         # Creating addTransactionButton and signal
         self.addTransactionButton = self.findChild(QPushButton, "addTransactionButton")
-        self.addTransactionButton.clicked.connect(self.addTransactionButton_wasClicked)
+        self.addTransactionButton.clicked.connect(self.add_transaction_button_was_clicked)
         # transactionDateEdit signal & variable creation
         self.transactionDateEdit = self.findChild(QDateEdit, "transactionDateEdit")
         # amountLineEdit signal and set Regular expression filter.
@@ -42,19 +51,56 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.descriptionTextEdit = self.findChild(QPlainTextEdit, "descriptionTextEdit")
         # memoTextEdit signals and variable creation
         self.memoTextEdit = self.findChild(QPlainTextEdit, "memoTextEdit")
+        # Add the column names as the first row of the table
+        self.transaction_table.setColumnCount(len(transaction_data.columns))
+        self.transaction_table.setRowCount(len(transaction_data.index))
+        self.transaction_table.setHorizontalHeaderLabels(
+            ['Description', 'Account', 'Amount', 'Date', 'Memo'])
 
-        # New transaction created
+        # Populate transaction table with existing data
 
-    def addTransactionButton_wasClicked(self):
+        for i, row in enumerate(transaction_data.itertuples(index=False)):
+            for j, cell in enumerate(row):
+                item = QTableWidgetItem(str(cell))
+                # print(type(item))
+                # Check for empty cells and replace with empty string.
+                if item.text() == 'nan' or item.text() == 'NaT':
+                    item = QTableWidgetItem('')
+                self.transaction_table.setItem(i, j, item)
+                # Resize table to contents
+                self.transaction_table.resizeColumnsToContents()
+        self.transaction_data_flag = True
+
+    def transaction_table_modified(self, _row, _column):
+        if self.transaction_data_flag:
+            item = self.transaction_table.cellWidget(_row, _column)
+            # Block signal while changing cell.
+            self.transaction_table.blockSignals(True)
+            self.transaction_table.setItem(_row, _column, QTableWidgetItem(item.text()))
+            self.transaction_table.blockSignals(False)
+
+            # Update spreadsheet with edited cell
+            transaction_spreadsheet = openpyxl.load_workbook("transactionsSpreadsheet.xlsx")
+            sheet = transaction_spreadsheet['Sheet1']
+            # Add 2 to row(for header in spreadsheet and indexing used by openpyxl)
+            # and 1 to column(indexing used by openpyxl).
+            cell = sheet.cell(row=_row + 2, column=_column + 1)
+            cell.value = item.text()
+            transaction_spreadsheet.save("transactionsSpreadsheet.xlsx")
+
+    # New transaction created method.
+    def add_transaction_button_was_clicked(self):
 
         description = self.descriptionTextEdit.toPlainText()
+        self.descriptionTextEdit.clear()
         account = self.accountComboBox.currentText()
         amount = self.amountLineEdit.text()
         date = self.transactionDateEdit.date().toString("MM-dd-yyyy")
         memo = self.memoTextEdit.toPlainText()
+        self.memoTextEdit.clear()
 
         data_to_add = [description, account, amount, date, memo]
-        # Checking for NaN data.
+        # Checking for non NaN data.
         if data_to_add[0] and data_to_add[2]:
 
             # Add new row to transaction spreadsheet.
@@ -64,40 +110,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             transaction_spreadsheet.save("transactionsSpreadsheet.xlsx")
 
             # Add new data to QTableWidget
-            lastRowPosition = self.transaction_table.rowCount()
-            self.transaction_table.insertRow(lastRowPosition)
+            last_row_position = self.transaction_table.rowCount()
+            self.transaction_table.insertRow(last_row_position)
             for i in range(self.transaction_table.columnCount()):
+                if not data_to_add[i]:
+                    data_to_add[i] = ''
                 item = QTableWidgetItem(str(data_to_add[i]))
-                self.transaction_table.setItem(lastRowPosition, i, item)
+                self.transaction_table.setItem(last_row_position, i, item)
+                self.transaction_table.resizeColumnsToContents()
+                self.transaction_table.horizontalHeader().setStretchLastSection(True)
+        # Dialog window pops up if cells required to be filler are empty.
         else:
             empty_transaction_dialog_window = EmptyTransactionDlg(self)
             empty_transaction_dialog_window.exec()
-
-
-
-
-
-
-        # Add the column names as the first row of the table
-        self.transaction_table.setColumnCount(len(transaction_data.columns))
-        self.transaction_table.setRowCount(len(transaction_data.index))
-        self.transaction_table.setHorizontalHeaderLabels(['Description', 'Amount', 'Date', 'Description', 'Memo'])
-
-        # Populate the remaining rows with the data
-
-        for i, row in enumerate(transaction_data.itertuples(index=False)):
-            for j, cell in enumerate(row):
-                item = QTableWidgetItem(str(cell))
-                self.transaction_table.setItem(i, j, item)
-                # Resize table to contents
-                self.transaction_table.resizeColumnsToContents()
-class EmptyTransactionDlg(Ui_Dialog, QDialog):
-    """Transaction Empty Dialog Box"""
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setupUi(self)
-
 
 
 app = QtWidgets.QApplication(sys.argv)
