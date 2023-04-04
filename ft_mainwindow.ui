@@ -26,7 +26,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QTabWidget" name="main_tabWidget">
       <property name="sizePolicy">
@@ -36,16 +36,11 @@
        </sizepolicy>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="tabsClosable">
        <bool>false</bool>
       </property>
-      <widget class="QWidget" name="accounts_tab">
-       <attribute name="title">
-        <string>My Accounts</string>
-       </attribute>
-      </widget>
       <widget class="QWidget" name="transactions_tab">
        <property name="enabled">
         <bool>true</bool>
@@ -125,7 +120,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,0">
+         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,1,0">
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="font">
@@ -159,7 +154,25 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="2">
+          <item row="1" column="1">
+           <widget class="QComboBox" name="accountComboBox">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="currentText">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
@@ -185,28 +198,34 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="accountComboBox">
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="amountLineEdit">
+            <property name="placeholderText">
+             <string>0.00</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_4">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
              </font>
             </property>
-            <property name="contextMenuPolicy">
-             <enum>Qt::NoContextMenu</enum>
+            <property name="text">
+             <string>Category</string>
             </property>
-            <property name="editable">
-             <bool>false</bool>
-            </property>
-            <property name="currentText">
-             <string/>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QLineEdit" name="amountLineEdit">
-            <property name="placeholderText">
-             <string>0.00</string>
+           <widget class="QComboBox" name="categoryComboBox">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
             </property>
            </widget>
           </item>
@@ -253,6 +272,27 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="accounts_tab">
+       <attribute name="title">
+        <string>My Accounts</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QTreeWidget" name="accounts_tree">
+          <column>
+           <property name="text">
+            <string notr="true">1</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="graph_tab">
+       <attribute name="title">
+        <string>Graphs</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -263,7 +303,7 @@
      <x>0</x>
      <y>0</y>
      <width>1183</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -279,6 +319,8 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionEnter_Edit_Transaction_Categories"/>
+    <addaction name="actionEnter_Edit_Accounts"/>
    </widget>
    <widget class="QMenu" name="menuWindow">
     <property name="title">
@@ -298,6 +340,16 @@
   <action name="actionsave">
    <property name="text">
     <string>save</string>
+   </property>
+  </action>
+  <action name="actionEnter_Edit_Transaction_Categories">
+   <property name="text">
+    <string>Enter/Edit Transaction Categories</string>
+   </property>
+  </action>
+  <action name="actionEnter_Edit_Accounts">
+   <property name="text">
+    <string>Enter/Edit Accounts</string>
    </property>
   </action>
  </widget>

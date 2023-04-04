@@ -3,7 +3,7 @@ from emptyTransaction_Dialog import Ui_Dialog
 from PySide6.QtWidgets import (
     QTableWidget, QTableWidgetItem, QPushButton, QDateEdit,
     QComboBox, QPlainTextEdit, QLineEdit, QAbstractItemView,
-    QDialog, QMainWindow
+    QDialog
 )
 from PySide6.QtGui import QRegularExpressionValidator
 from PySide6.QtCore import QRegularExpression, QDate
@@ -14,7 +14,7 @@ transaction_data = pd.read_excel('transactionsSpreadsheet.xlsx', 0)
 accounts_data = pd.read_excel('transactionsSpreadsheet.xlsx', 1)
 
 transaction_spreadsheet = openpyxl.load_workbook("transactionsSpreadsheet.xlsx")
-transaction_sheet = transaction_spreadsheet['Sheet1']
+transaction_sheet = transaction_spreadsheet["Sheet1"]
 
 
 class EmptyTransactionDlg(Ui_Dialog, QDialog):
@@ -37,23 +37,29 @@ class TransactionTab(Ui_MainWindow):
         self.parent.filterButton.clicked.connect(self.filter_table)
         self.parent.deleteTransactionButton = self.parent.findChild(QPushButton, "deleteTransactionButton")
         self.parent.deleteTransactionButton.clicked.connect(self.delete_transaction)
-        self.transaction_table.cellClicked.connect(self.transaction_table_cell_clicked)
+        self.transaction_table.currentCellChanged.connect(self.row_selected)
         self.row = None
         self.parent.transactionDateEdit = self.parent.findChild(QDateEdit, "transactionDateEdit")
         self.parent.transactionDateEdit.setDate(QDate.currentDate())
         self.parent.amountLineEdit = self.parent.findChild(QLineEdit, "amountLineEdit")
-        dollar_format = QRegularExpression(r'^\d{0,8}(\.\d{0,2})?$')
+        dollar_format = QRegularExpression(r'^-?\d{0,8}(\.\d{0,2})?$')
         validator = QRegularExpressionValidator(dollar_format)
         self.parent.amountLineEdit.setValidator(validator)
         self.parent.amountLineEdit.setMaxLength(11)
         self.parent.accountComboBox = self.parent.findChild(QComboBox, "accountComboBox")
-        self.parent.accountComboBox.addItems(accounts_data["Name of Account"])
+        # Get rid of duplicates in the Type of Account Column to add to accountComboBox.
+        type_of_accounts_to_set = set(accounts_data["Type of Account"].tolist())
+        self.parent.accountComboBox.addItems(type_of_accounts_to_set)
+        # Get rid of duplicates in the Category Column to add to categoryComboBox.
+        categories_to_set = set(transaction_data['Category'].tolist())
+        self.parent.categoryComboBox = self.parent.findChild(QComboBox, "categoryComboBox")
+        self.parent.categoryComboBox.addItems(categories_to_set)
         self.parent.descriptionTextEdit = self.parent.findChild(QPlainTextEdit, "descriptionTextEdit")
         self.parent.memoTextEdit = self.parent.findChild(QPlainTextEdit, "memoTextEdit")
         self.transaction_table.setColumnCount(len(transaction_data.columns))
         self.transaction_table.setRowCount(len(transaction_data.index))
         self.transaction_table.setHorizontalHeaderLabels(
-            ['Description', 'Account', 'Amount', 'Date', 'Memo'])
+            ['Description', 'Category', 'Account', 'Amount', 'Date', 'Memo'])
 
         for i, row in enumerate(transaction_data.itertuples(index=False)):
             for j, cell in enumerate(row):
@@ -66,8 +72,8 @@ class TransactionTab(Ui_MainWindow):
         self.transaction_data_flag = True
 
     # Filter table function.
-    def filter_table(self):
         # Get the user input from the filterLineEdit.
+    def filter_table(self):
         filter_text = self.parent.filterLineEdit.text()
 
         # If the filter is empty, show all the rows.
@@ -91,7 +97,7 @@ class TransactionTab(Ui_MainWindow):
         self.filter_table()
 
     # Delete transaction function.
-    def transaction_table_cell_clicked(self, row):
+    def row_selected(self, row):
         self.row = row
 
     def delete_transaction(self):
@@ -100,7 +106,7 @@ class TransactionTab(Ui_MainWindow):
             self.transaction_table.removeRow(self.row)
 
             # Save changes to spreadsheet
-            transaction_sheet.delete_rows((self.row + 2))
+            transaction_sheet.delete_rows((self.row + 3))
             self.row = None
             transaction_spreadsheet.save("transactionsSpreadsheet.xlsx")
 
@@ -123,16 +129,16 @@ class TransactionTab(Ui_MainWindow):
 
     # New transaction created method.
     def add_transaction_button_was_clicked(self):
-        print("add_transaction_button_was_clicked called")
         description = self.parent.descriptionTextEdit.toPlainText()
+        category = self.parent.categoryComboBox.currentText()
         account = self.parent.accountComboBox.currentText()
         amount = self.parent.amountLineEdit.text()
         date = self.parent.transactionDateEdit.date().toString("MM-dd-yyyy")
         memo = self.parent.memoTextEdit.toPlainText()
 
-        data_to_add = [description, account, amount, date, memo]
+        data_to_add = [description, category, account, amount, date, memo]
         # Checking for non NaN data.
-        if data_to_add[0] and data_to_add[2]:
+        if data_to_add[0] and data_to_add[3]:
 
             # Add new row to transaction spreadsheet.
             transaction_sheet.append(data_to_add)
