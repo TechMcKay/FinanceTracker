@@ -25,10 +25,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Accounts Tab
         self.accounts_tab = AccountsTab(self)
 
-        # actionEnter_Edit_Transaction_Categories signal
-        self.actionEnter_Edit_Transaction_Categories = self.findChild(QAction, "actionEnter_Edit_Transaction_Categories")
-        #self.actionEnter_Edit_Transaction_Categories.triggered.connect(self.open_transaction_category_window) # Need to create window to edit/add transaction Catagories.
-
 app = QApplication(sys.argv)
 
 window = MainWindow()

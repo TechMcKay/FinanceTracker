@@ -1,12 +1,13 @@
 from ft_mainwindow import Ui_MainWindow
 from emptyTransaction_Dialog import Ui_Dialog
+from transactionCategoryWindow import Ui_transactionCategoryWindow
 from PySide6.QtWidgets import (
     QTableWidget, QTableWidgetItem, QPushButton, QDateEdit,
     QComboBox, QPlainTextEdit, QLineEdit, QAbstractItemView,
-    QDialog
+    QDialog, QMainWindow
 )
-from PySide6.QtGui import QRegularExpressionValidator
-from PySide6.QtCore import QRegularExpression, QDate
+from PySide6.QtGui import QRegularExpressionValidator, QAction
+from PySide6.QtCore import QRegularExpression, QDate, QCoreApplication
 import pandas as pd
 import openpyxl
 
@@ -16,6 +17,16 @@ accounts_data = pd.read_excel('transactionsSpreadsheet.xlsx', 1)
 transaction_spreadsheet = openpyxl.load_workbook("transactionsSpreadsheet.xlsx")
 transaction_sheet = transaction_spreadsheet["Sheet1"]
 
+# create Transaction Category class.
+class TransactionCategoryWindow(QMainWindow):
+    """Transaction Category Window"""
+
+    def __init__(self, parent=None, transaction_tab=None):
+        super().__init__(parent)
+        self.ui = Ui_transactionCategoryWindow()
+        self.ui.setupUi(self)
+        self.transaction_tab = transaction_tab
+        self.ui.add_new_categoryButton.clicked.connect(self.transaction_tab.add_new_transaction_category)
 
 class EmptyTransactionDlg(Ui_Dialog, QDialog):
     """Transaction Empty Dialog Box"""
@@ -23,6 +34,8 @@ class EmptyTransactionDlg(Ui_Dialog, QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.add_new_categoryButton = self.findChild(QPushButton, "add_new_categoryButton")
+        self.add_new_categoryButton.clicked.connect(self.add_new_transaction_category)
 
 
 class TransactionTab(Ui_MainWindow):
@@ -47,15 +60,23 @@ class TransactionTab(Ui_MainWindow):
         self.parent.amountLineEdit.setValidator(validator)
         self.parent.amountLineEdit.setMaxLength(11)
         self.parent.accountComboBox = self.parent.findChild(QComboBox, "accountComboBox")
+
         # Get rid of duplicates in the Type of Account Column to add to accountComboBox.
         type_of_accounts_to_set = set(accounts_data["Type of Account"].tolist())
         self.parent.accountComboBox.addItems(type_of_accounts_to_set)
+
         # Get rid of duplicates in the Category Column to add to categoryComboBox.
-        categories_to_set = set(transaction_data['Category'].tolist())
+        self.categories_to_set = set(transaction_data['Category'].tolist())
         self.parent.categoryComboBox = self.parent.findChild(QComboBox, "categoryComboBox")
-        self.parent.categoryComboBox.addItems(categories_to_set)
+        self.parent.categoryComboBox.addItems(self.categories_to_set)
         self.parent.descriptionTextEdit = self.parent.findChild(QPlainTextEdit, "descriptionTextEdit")
         self.parent.memoTextEdit = self.parent.findChild(QPlainTextEdit, "memoTextEdit")
+
+        # Set up Add/Edit Transaction window button.
+        self.parent.actionEnter_Edit_Transaction_Categories = self.parent.\
+            findChild(QAction, "actionEnter_Edit_Transaction_Categories")
+        self.parent.actionEnter_Edit_Transaction_Categories.triggered.connect(
+            self.open_transaction_category_window)
         self.transaction_table.setColumnCount(len(transaction_data.columns))
         self.transaction_table.setRowCount(len(transaction_data.index))
         self.transaction_table.setHorizontalHeaderLabels(
@@ -72,7 +93,7 @@ class TransactionTab(Ui_MainWindow):
         self.transaction_data_flag = True
 
     # Filter table function.
-        # Get the user input from the filterLineEdit.
+    # Get the user input from the filterLineEdit.
     def filter_table(self):
         filter_text = self.parent.filterLineEdit.text()
 
@@ -164,3 +185,20 @@ class TransactionTab(Ui_MainWindow):
         else:
             empty_transaction_dlg = EmptyTransactionDlg(self.parent)
             empty_transaction_dlg.exec()
+
+    # Set up transaction category window.
+    def open_transaction_category_window(self):
+
+        transaction_category_window = TransactionCategoryWindow(self.parent, self)
+        transaction_category_window.show()
+
+    def add_new_transaction_category(self):
+        # Add category to categoryComboBox
+        category_to_set = 'test'
+        self.parent.categoryComboBox.addItem(category_to_set)
+        print("worked")
+        # Add category to category-tab-spreadsheet(sheet 3), Need to create a sheet 3 and add categories to it.
+
+
+
+
