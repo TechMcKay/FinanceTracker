@@ -23,7 +23,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QLineEdit" name="transation_category_lineEdit">
+      <widget class="QLineEdit" name="transaction_category_lineEdit">
        <property name="placeholderText">
         <string>Enter New Transaction Category</string>
        </property>
@@ -43,7 +43,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

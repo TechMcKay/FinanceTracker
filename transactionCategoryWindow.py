@@ -36,9 +36,9 @@ class Ui_transactionCategoryWindow(object):
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Horizontal)
-        self.transation_category_lineEdit = QLineEdit(self.splitter)
-        self.transation_category_lineEdit.setObjectName(u"transation_category_lineEdit")
-        self.splitter.addWidget(self.transation_category_lineEdit)
+        self.transaction_category_lineEdit = QLineEdit(self.splitter)
+        self.transaction_category_lineEdit.setObjectName(u"transaction_category_lineEdit")
+        self.splitter.addWidget(self.transaction_category_lineEdit)
         self.add_new_categoryButton = QPushButton(self.splitter)
         self.add_new_categoryButton.setObjectName(u"add_new_categoryButton")
         self.splitter.addWidget(self.add_new_categoryButton)
@@ -48,7 +48,7 @@ class Ui_transactionCategoryWindow(object):
         transactionCategoryWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(transactionCategoryWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QRect(0, 0, 800, 26))
         transactionCategoryWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(transactionCategoryWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -61,7 +61,7 @@ class Ui_transactionCategoryWindow(object):
 
     def retranslateUi(self, transactionCategoryWindow):
         transactionCategoryWindow.setWindowTitle(QCoreApplication.translate("transactionCategoryWindow", u"Add Transaction Categories", None))
-        self.transation_category_lineEdit.setPlaceholderText(QCoreApplication.translate("transactionCategoryWindow", u"Enter New Transaction Category", None))
+        self.transaction_category_lineEdit.setPlaceholderText(QCoreApplication.translate("transactionCategoryWindow", u"Enter New Transaction Category", None))
         self.add_new_categoryButton.setText(QCoreApplication.translate("transactionCategoryWindow", u"Add New Category", None))
     # retranslateUi
 
