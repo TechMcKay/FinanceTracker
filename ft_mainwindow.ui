@@ -63,17 +63,7 @@
              <set>Qt::AlignCenter</set>
             </property>
             <property name="placeholderText">
-             <string>Add text here and press filter button to filter.</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="transactionFilterButton">
-            <property name="text">
-             <string>Filter</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="clearTransactionFilterButton">
-            <property name="text">
-             <string>Clear Filter</string>
+             <string>Type here to filter table</string>
             </property>
            </widget>
            <widget class="QPushButton" name="deleteTransactionButton">
@@ -82,7 +72,7 @@
             </property>
            </widget>
           </widget>
-          <widget class="QTableWidget" name="transaction_table">
+          <widget class="QTableView" name="transaction_table">
            <property name="enabled">
             <bool>true</bool>
            </property>
@@ -105,15 +95,15 @@
             <bool>false</bool>
            </property>
            <property name="sortingEnabled">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
-           <attribute name="horizontalHeaderCascadingSectionResizes">
+           <attribute name="horizontalHeaderHighlightSections">
             <bool>false</bool>
            </attribute>
-           <attribute name="horizontalHeaderStretchLastSection">
+           <attribute name="verticalHeaderCascadingSectionResizes">
             <bool>true</bool>
            </attribute>
-           <attribute name="verticalHeaderCascadingSectionResizes">
+           <attribute name="verticalHeaderHighlightSections">
             <bool>false</bool>
            </attribute>
           </widget>
@@ -303,7 +293,7 @@
      <x>0</x>
      <y>0</y>
      <width>1183</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -356,8 +346,6 @@
  <tabstops>
   <tabstop>main_tabWidget</tabstop>
   <tabstop>transactionFilterLineEdit</tabstop>
-  <tabstop>transactionFilterButton</tabstop>
-  <tabstop>clearTransactionFilterButton</tabstop>
   <tabstop>deleteTransactionButton</tabstop>
   <tabstop>transaction_table</tabstop>
   <tabstop>transactionDateEdit</tabstop>

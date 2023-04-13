@@ -1,5 +1,5 @@
 from ft_mainwindow import Ui_MainWindow
-from transaction_tab import TransactionTab
+from transaction_tab_2 import TransactionTab
 from accounts_tab import AccountsTab
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (
@@ -16,14 +16,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         # Transaction Tab.
-        self.filterButton = self.findChild(QtWidgets.QPushButton, "transactionFilterButton")
         self.transaction_tab = TransactionTab(self)
-        self.filterLineEdit = self.findChild(QLineEdit, "transactionFilterLineEdit")
-        self.clearTransactionFilterButton.clicked.connect(self.transaction_tab.clear_transaction_filter)
-        self.deleteTransactionButton = self.findChild(QPushButton, "deleteTransactionButton")
-
         # Accounts Tab
         self.accounts_tab = AccountsTab(self)
+
 
 app = QApplication(sys.argv)
 

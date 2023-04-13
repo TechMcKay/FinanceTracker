@@ -20,8 +20,8 @@ from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDa
     QGridLayout, QHBoxLayout, QHeaderView, QLabel,
     QLineEdit, QMainWindow, QMenu, QMenuBar,
     QPlainTextEdit, QPushButton, QSizePolicy, QSplitter,
-    QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+    QStatusBar, QTabWidget, QTableView, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -70,17 +70,11 @@ class Ui_MainWindow(object):
         self.transactionFilterLineEdit.setObjectName(u"transactionFilterLineEdit")
         self.transactionFilterLineEdit.setAlignment(Qt.AlignCenter)
         self.splitter.addWidget(self.transactionFilterLineEdit)
-        self.transactionFilterButton = QPushButton(self.splitter)
-        self.transactionFilterButton.setObjectName(u"transactionFilterButton")
-        self.splitter.addWidget(self.transactionFilterButton)
-        self.clearTransactionFilterButton = QPushButton(self.splitter)
-        self.clearTransactionFilterButton.setObjectName(u"clearTransactionFilterButton")
-        self.splitter.addWidget(self.clearTransactionFilterButton)
         self.deleteTransactionButton = QPushButton(self.splitter)
         self.deleteTransactionButton.setObjectName(u"deleteTransactionButton")
         self.splitter.addWidget(self.deleteTransactionButton)
         self.splitter_2.addWidget(self.splitter)
-        self.transaction_table = QTableWidget(self.splitter_2)
+        self.transaction_table = QTableView(self.splitter_2)
         self.transaction_table.setObjectName(u"transaction_table")
         self.transaction_table.setEnabled(True)
         sizePolicy.setHeightForWidth(self.transaction_table.sizePolicy().hasHeightForWidth())
@@ -88,11 +82,11 @@ class Ui_MainWindow(object):
         self.transaction_table.setMinimumSize(QSize(0, 344))
         self.transaction_table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
         self.transaction_table.setAlternatingRowColors(False)
-        self.transaction_table.setSortingEnabled(True)
+        self.transaction_table.setSortingEnabled(False)
         self.splitter_2.addWidget(self.transaction_table)
-        self.transaction_table.horizontalHeader().setCascadingSectionResizes(False)
-        self.transaction_table.horizontalHeader().setStretchLastSection(True)
-        self.transaction_table.verticalHeader().setCascadingSectionResizes(False)
+        self.transaction_table.horizontalHeader().setHighlightSections(False)
+        self.transaction_table.verticalHeader().setCascadingSectionResizes(True)
+        self.transaction_table.verticalHeader().setHighlightSections(False)
 
         self.verticalLayout_2.addWidget(self.splitter_2)
 
@@ -204,7 +198,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1183, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1183, 21))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuEdit = QMenu(self.menubar)
@@ -216,9 +210,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
         QWidget.setTabOrder(self.main_tabWidget, self.transactionFilterLineEdit)
-        QWidget.setTabOrder(self.transactionFilterLineEdit, self.transactionFilterButton)
-        QWidget.setTabOrder(self.transactionFilterButton, self.clearTransactionFilterButton)
-        QWidget.setTabOrder(self.clearTransactionFilterButton, self.deleteTransactionButton)
+        QWidget.setTabOrder(self.transactionFilterLineEdit, self.deleteTransactionButton)
         QWidget.setTabOrder(self.deleteTransactionButton, self.transaction_table)
         QWidget.setTabOrder(self.transaction_table, self.transactionDateEdit)
         QWidget.setTabOrder(self.transactionDateEdit, self.accountComboBox)
@@ -251,9 +243,7 @@ class Ui_MainWindow(object):
         self.actionsave.setText(QCoreApplication.translate("MainWindow", u"save", None))
         self.actionEnter_Edit_Transaction_Categories.setText(QCoreApplication.translate("MainWindow", u"Enter/Edit Transaction Categories", None))
         self.actionEnter_Edit_Accounts.setText(QCoreApplication.translate("MainWindow", u"Enter/Edit Accounts", None))
-        self.transactionFilterLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Add text here and press filter button to filter.", None))
-        self.transactionFilterButton.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
-        self.clearTransactionFilterButton.setText(QCoreApplication.translate("MainWindow", u"Clear Filter", None))
+        self.transactionFilterLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here to filter table", None))
         self.deleteTransactionButton.setText(QCoreApplication.translate("MainWindow", u"Delete Transaction", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Date", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"From Account", None))
