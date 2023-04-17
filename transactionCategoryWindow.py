@@ -15,24 +15,19 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHeaderView, QLineEdit, QMainWindow,
-    QMenuBar, QPushButton, QSizePolicy, QSplitter,
-    QStatusBar, QTableView, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QLineEdit, QMainWindow, QMenuBar,
+    QPushButton, QSizePolicy, QSplitter, QStatusBar,
+    QVBoxLayout, QWidget)
 
 class Ui_transactionCategoryWindow(object):
     def setupUi(self, transactionCategoryWindow):
         if not transactionCategoryWindow.objectName():
             transactionCategoryWindow.setObjectName(u"transactionCategoryWindow")
-        transactionCategoryWindow.resize(800, 600)
+        transactionCategoryWindow.resize(786, 101)
         self.centralwidget = QWidget(transactionCategoryWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.tableView = QTableView(self.centralwidget)
-        self.tableView.setObjectName(u"tableView")
-
-        self.verticalLayout.addWidget(self.tableView)
-
         self.splitter = QSplitter(self.centralwidget)
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Horizontal)
@@ -48,7 +43,7 @@ class Ui_transactionCategoryWindow(object):
         transactionCategoryWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(transactionCategoryWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 800, 26))
+        self.menubar.setGeometry(QRect(0, 0, 786, 26))
         transactionCategoryWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(transactionCategoryWindow)
         self.statusbar.setObjectName(u"statusbar")

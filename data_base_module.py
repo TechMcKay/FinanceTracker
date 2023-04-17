@@ -27,7 +27,14 @@ class TransactionDatabase:
         self.conn.close()
 
     def delete_table(self, table_name):
-        self.c.execute(f"DROP TABLE {table_name}")
+        with self.conn:
+            self.c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,))
+            result = self.c.fetchone()
+            if result:
+                self.c.execute(f"DROP TABLE {table_name}")
+                print(f"Table '{table_name}' has been deleted.")
+            else:
+                print(f"Table '{table_name}' does not exist.")
 
     def delete_rows(self, rows):
         with self.conn:
@@ -46,17 +53,21 @@ class TransactionDatabase:
             transaction_categories = [row[0] for row in self.c.fetchall()]
         return transaction_categories
 
+    def add_transaction_category(self, text):
+        with self.conn:
+            self.c.execute('INSERT INTO transaction_categories (transaction_category) VALUES (?)', (text,))
 
-    # def get_account_types(self):
-    #     with self.conn:
-    #         self.c.execute('SELECT "Type of Account" FROM accounts_database')
-    #         account_types = [row[0] for row in self.c.fetchall()]
-    #     return account_types
+    def apply_amount_to_databases(self, account, amount, trans_category):
+        with self.conn:
+            self.c.execute(
+                '''UPDATE accounts_database SET "Amount in Account" = "Amount in Account" + ?
+                WHERE "Name of Account" = ?''', (amount, account))
+            self.c.execute(
+                '''UPDATE transaction_categories SET transaction_category_amount = transaction_category_amount + ?
+                WHERE transaction_category = ?''', (amount, trans_category))
 
 
-# db = TransactionDatabase()
-
-# # Transaction database creation and testing code.
+## Transaction database creation and testing code.
 # transaction_table = "transaction_database"
 # transaction_database_columns = '''(id INTEGER PRIMARY KEY AUTOINCREMENT,
 #              Description TEXT,
@@ -65,18 +76,17 @@ class TransactionDatabase:
 #             Amount NUMERIC,
 #             Date DATE,
 #             Memo TEXT)'''
-# transaction_database_data_testing = ('New Bike', 'Recreational', 'US Bank', 1, '1/10/2023', 'I get to ride!')
-#
+# db = TransactionDatabase()
+# db.delete_table(transaction_table)
+# db.create_table(transaction_table, transaction_database_columns)
+
+
 # # Accounts database creation and testing code.
 # accounts_table = "accounts_database"
 # accounts_database_columns = '''(id INTEGER PRIMARY KEY AUTOINCREMENT,
 #              'Name of Account' TEXT,
 #             'Type of Account' TEXT,
 #             'Amount in Account' NUMERIC)'''
-#
-# accounts_database_data_testing = ('Wallet', 'Cash', 523)
-# db.insert_type_of_account(accounts_table, accounts_database_data_testing)
-
-# db.create_table(accounts_table, accounts_database_columns)
-# db.insert_row_of_data(table, data_)
-# db.delete_table(table)
+# db = TransactionDatabase()
+# db.delete_table(accounts_table)
+# db.create_table(accounts_table, transaction_database_columns)
