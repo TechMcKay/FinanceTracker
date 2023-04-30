@@ -68,10 +68,14 @@ class Ui_MainWindow(object):
         self.splitter.setOrientation(Qt.Horizontal)
         self.transactionFilterLineEdit = QLineEdit(self.splitter)
         self.transactionFilterLineEdit.setObjectName(u"transactionFilterLineEdit")
+        font = QFont()
+        font.setPointSize(12)
+        self.transactionFilterLineEdit.setFont(font)
         self.transactionFilterLineEdit.setAlignment(Qt.AlignCenter)
         self.splitter.addWidget(self.transactionFilterLineEdit)
         self.deleteTransactionButton = QPushButton(self.splitter)
         self.deleteTransactionButton.setObjectName(u"deleteTransactionButton")
+        self.deleteTransactionButton.setFont(font)
         self.splitter.addWidget(self.deleteTransactionButton)
         self.splitter_2.addWidget(self.splitter)
         self.transaction_table = QTableView(self.splitter_2)
@@ -80,6 +84,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.transaction_table.sizePolicy().hasHeightForWidth())
         self.transaction_table.setSizePolicy(sizePolicy)
         self.transaction_table.setMinimumSize(QSize(0, 344))
+        self.transaction_table.setFont(font)
         self.transaction_table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustIgnored)
         self.transaction_table.setAlternatingRowColors(False)
         self.transaction_table.setSortingEnabled(False)
@@ -94,8 +99,6 @@ class Ui_MainWindow(object):
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.label = QLabel(self.transactions_tab)
         self.label.setObjectName(u"label")
-        font = QFont()
-        font.setPointSize(12)
         self.label.setFont(font)
         self.label.setAlignment(Qt.AlignCenter)
 
@@ -109,6 +112,13 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.label_2, 0, 1, 1, 1)
 
+        self.label_3 = QLabel(self.transactions_tab)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setFont(font)
+        self.label_3.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_2.addWidget(self.label_3, 0, 4, 1, 1)
+
         self.accountComboBox = QComboBox(self.transactions_tab)
         self.accountComboBox.setObjectName(u"accountComboBox")
         self.accountComboBox.setFont(font)
@@ -117,39 +127,51 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.accountComboBox, 1, 1, 1, 1)
 
-        self.label_3 = QLabel(self.transactions_tab)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setFont(font)
-        self.label_3.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_2.addWidget(self.label_3, 0, 3, 1, 1)
-
         self.transactionDateEdit = QDateEdit(self.transactions_tab)
         self.transactionDateEdit.setObjectName(u"transactionDateEdit")
+        self.transactionDateEdit.setFont(font)
         self.transactionDateEdit.setDate(QDate(2023, 1, 1))
 
         self.gridLayout_2.addWidget(self.transactionDateEdit, 1, 0, 1, 1)
 
         self.amountLineEdit = QLineEdit(self.transactions_tab)
         self.amountLineEdit.setObjectName(u"amountLineEdit")
+        self.amountLineEdit.setFont(font)
 
-        self.gridLayout_2.addWidget(self.amountLineEdit, 1, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.amountLineEdit, 1, 4, 1, 1)
+
+        self.categoryComboBox = QComboBox(self.transactions_tab)
+        self.categoryComboBox.setObjectName(u"categoryComboBox")
+        self.categoryComboBox.setFont(font)
+        self.categoryComboBox.setEditable(True)
+
+        self.gridLayout_2.addWidget(self.categoryComboBox, 1, 3, 1, 1)
 
         self.label_4 = QLabel(self.transactions_tab)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setFont(font)
         self.label_4.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_2.addWidget(self.label_4, 0, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.label_4, 0, 3, 1, 1)
 
-        self.categoryComboBox = QComboBox(self.transactions_tab)
-        self.categoryComboBox.setObjectName(u"categoryComboBox")
-        self.categoryComboBox.setFont(font)
+        self.payee_comboBox = QComboBox(self.transactions_tab)
+        self.payee_comboBox.setObjectName(u"payee_comboBox")
+        self.payee_comboBox.setFont(font)
+        self.payee_comboBox.setEditable(True)
+        self.payee_comboBox.setCurrentText(u"")
 
-        self.gridLayout_2.addWidget(self.categoryComboBox, 1, 2, 1, 1)
+        self.gridLayout_2.addWidget(self.payee_comboBox, 1, 2, 1, 1)
+
+        self.payee_label = QLabel(self.transactions_tab)
+        self.payee_label.setObjectName(u"payee_label")
+        self.payee_label.setFont(font)
+        self.payee_label.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_2.addWidget(self.payee_label, 0, 2, 1, 1)
 
         self.gridLayout_2.setColumnStretch(1, 1)
         self.gridLayout_2.setColumnStretch(2, 1)
+        self.gridLayout_2.setColumnStretch(3, 1)
 
         self.verticalLayout_2.addLayout(self.gridLayout_2)
 
@@ -158,12 +180,14 @@ class Ui_MainWindow(object):
         self.splitter_3.setOrientation(Qt.Horizontal)
         self.descriptionTextEdit = QPlainTextEdit(self.splitter_3)
         self.descriptionTextEdit.setObjectName(u"descriptionTextEdit")
+        self.descriptionTextEdit.setFont(font)
         self.descriptionTextEdit.setContextMenuPolicy(Qt.NoContextMenu)
         self.descriptionTextEdit.setTabChangesFocus(True)
         self.descriptionTextEdit.setOverwriteMode(False)
         self.splitter_3.addWidget(self.descriptionTextEdit)
         self.memoTextEdit = QPlainTextEdit(self.splitter_3)
         self.memoTextEdit.setObjectName(u"memoTextEdit")
+        self.memoTextEdit.setFont(font)
         self.memoTextEdit.setTabChangesFocus(True)
         self.memoTextEdit.setOverwriteMode(False)
         self.splitter_3.addWidget(self.memoTextEdit)
@@ -172,15 +196,16 @@ class Ui_MainWindow(object):
 
         self.addTransactionButton = QPushButton(self.transactions_tab)
         self.addTransactionButton.setObjectName(u"addTransactionButton")
+        self.addTransactionButton.setFont(font)
 
         self.verticalLayout_2.addWidget(self.addTransactionButton)
 
         self.main_tabWidget.addTab(self.transactions_tab, "")
-        self.accounts_tab = QWidget()
-        self.accounts_tab.setObjectName(u"accounts_tab")
-        self.verticalLayout = QVBoxLayout(self.accounts_tab)
+        self.add_account_window = QWidget()
+        self.add_account_window.setObjectName(u"accounts_tab")
+        self.verticalLayout = QVBoxLayout(self.add_account_window)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.accounts_tree = QTreeWidget(self.accounts_tab)
+        self.accounts_tree = QTreeWidget(self.add_account_window)
         __qtreewidgetitem = QTreeWidgetItem()
         __qtreewidgetitem.setText(0, u"1");
         self.accounts_tree.setHeaderItem(__qtreewidgetitem)
@@ -188,7 +213,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.accounts_tree)
 
-        self.main_tabWidget.addTab(self.accounts_tab, "")
+        self.main_tabWidget.addTab(self.add_account_window, "")
         self.graph_tab = QWidget()
         self.graph_tab.setObjectName(u"graph_tab")
         self.main_tabWidget.addTab(self.graph_tab, "")
@@ -198,7 +223,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1183, 26))
+        self.menubar.setGeometry(QRect(0, 0, 1183, 21))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuEdit = QMenu(self.menubar)
@@ -247,15 +272,17 @@ class Ui_MainWindow(object):
         self.deleteTransactionButton.setText(QCoreApplication.translate("MainWindow", u"Delete Transaction", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Date", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Account", None))
-        self.accountComboBox.setCurrentText("")
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Amount", None))
+        self.accountComboBox.setCurrentText("")
         self.amountLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"0.00", None))
+        self.categoryComboBox.setCurrentText("")
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Category", None))
+        self.payee_label.setText(QCoreApplication.translate("MainWindow", u"Payee", None))
         self.descriptionTextEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter Description", None))
         self.memoTextEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter Memo", None))
         self.addTransactionButton.setText(QCoreApplication.translate("MainWindow", u"Add Transaction", None))
         self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.transactions_tab), QCoreApplication.translate("MainWindow", u"Transactions", None))
-        self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.accounts_tab), QCoreApplication.translate("MainWindow", u"My Accounts", None))
+        self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.add_account_window), QCoreApplication.translate("MainWindow", u"My Accounts", None))
         self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.graph_tab), QCoreApplication.translate("MainWindow", u"Graphs", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuEdit.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))

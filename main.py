@@ -1,5 +1,5 @@
 from ft_mainwindow import Ui_MainWindow
-from transaction_tab_2 import TransactionTab
+from transaction_tab import TransactionTab
 from accounts_tab import AccountsTab
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (

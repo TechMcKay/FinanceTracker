@@ -59,6 +59,11 @@
             <enum>Qt::Horizontal</enum>
            </property>
            <widget class="QLineEdit" name="transactionFilterLineEdit">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -67,6 +72,11 @@
             </property>
            </widget>
            <widget class="QPushButton" name="deleteTransactionButton">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>Delete Transaction</string>
             </property>
@@ -87,6 +97,11 @@
              <width>0</width>
              <height>344</height>
             </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
            </property>
            <property name="sizeAdjustPolicy">
             <enum>QAbstractScrollArea::AdjustIgnored</enum>
@@ -110,7 +125,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,1,0">
+         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,1,1,1,0">
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="font">
@@ -144,6 +159,21 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Amount</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
            <widget class="QComboBox" name="accountComboBox">
             <property name="font">
@@ -162,23 +192,13 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
-           <widget class="QLabel" name="label_3">
+          <item row="1" column="0">
+           <widget class="QDateEdit" name="transactionDateEdit">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
              </font>
             </property>
-            <property name="text">
-             <string>Amount</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QDateEdit" name="transactionDateEdit">
             <property name="date">
              <date>
               <year>2023</year>
@@ -188,14 +208,34 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
+          <item row="1" column="4">
            <widget class="QLineEdit" name="amountLineEdit">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="placeholderText">
              <string>0.00</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2">
+          <item row="1" column="3">
+           <widget class="QComboBox" name="categoryComboBox">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="currentText">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
            <widget class="QLabel" name="label_4">
             <property name="font">
              <font>
@@ -211,11 +251,32 @@
            </widget>
           </item>
           <item row="1" column="2">
-           <widget class="QComboBox" name="categoryComboBox">
+           <widget class="QComboBox" name="payee_comboBox">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
              </font>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="currentText">
+             <string notr="true"/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="payee_label">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Payee</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -227,6 +288,11 @@
            <enum>Qt::Horizontal</enum>
           </property>
           <widget class="QPlainTextEdit" name="descriptionTextEdit">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="contextMenuPolicy">
             <enum>Qt::NoContextMenu</enum>
            </property>
@@ -241,6 +307,11 @@
            </property>
           </widget>
           <widget class="QPlainTextEdit" name="memoTextEdit">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="tabChangesFocus">
             <bool>true</bool>
            </property>
@@ -255,6 +326,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="addTransactionButton">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Add Transaction</string>
           </property>
@@ -293,7 +369,7 @@
      <x>0</x>
      <y>0</y>
      <width>1183</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

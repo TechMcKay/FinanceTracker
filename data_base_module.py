@@ -13,7 +13,7 @@ class TransactionDatabase:
 
     def insert_row_of_data(self, database_table, data):
         with self.conn:
-            column_names = '(Description, Category, Account, Amount, Date, Memo)'
+            column_names = '(Description, Category, Account, Payee, Amount, Date, Memo)'
             placeholders = ",".join("?" * len(data))
             self.c.execute(f"INSERT INTO {database_table} {column_names} VALUES ({placeholders})", data)
 
@@ -47,6 +47,12 @@ class TransactionDatabase:
             account_types = [row[0] for row in self.c.fetchall()]
         return account_types
 
+    def get_account_categories(self):
+        with self.conn:
+            self.c.execute('SELECT "Type of Account" FROM accounts_database')
+            account_categories = [row[0] for row in self.c.fetchall()]
+        return account_categories
+
     def get_transaction_categories(self):
         with self.conn:
             self.c.execute('SELECT transaction_category FROM transaction_categories')
@@ -54,8 +60,9 @@ class TransactionDatabase:
         return transaction_categories
 
     def add_transaction_category(self, text):
+        text = text.title()
         with self.conn:
-            self.c.execute('INSERT INTO transaction_categories (transaction_category) VALUES (?)', (text,))
+            self.c.execute('INSERT INTO transaction_categories VALUES (?,?)', (text, 0))
 
     def apply_amount_to_databases(self, account, amount, trans_category):
         with self.conn:
@@ -67,26 +74,51 @@ class TransactionDatabase:
                 WHERE transaction_category = ?''', (amount, trans_category))
 
 
-## Transaction database creation and testing code.
+    def add_account(self, account_name, account_category):
+        with self.conn:
+            self.c.execute(
+                f'INSERT INTO accounts_database ("Name of Account", "Type of Account", "Amount in Account")'
+                f' VALUES ("{account_name}", "{account_category}", 0);')
+
+
+# # Create connection to database
+# db = TransactionDatabase()
+#
+# # Transaction database creation and testing code.
 # transaction_table = "transaction_database"
 # transaction_database_columns = '''(id INTEGER PRIMARY KEY AUTOINCREMENT,
-#              Description TEXT,
-#             Category TEXT,
-#             Account TEXT,
-#             Amount NUMERIC,
-#             Date DATE,
-#             Memo TEXT)'''
-# db = TransactionDatabase()
+#                                     Description TEXT,
+#                                     Category TEXT,
+#                                     Account TEXT,
+#                                     Payee TEXT,
+#                                     Amount NUMERIC,
+#                                     Date DATE,
+#                                     Memo TEXT)'''
+#
 # db.delete_table(transaction_table)
 # db.create_table(transaction_table, transaction_database_columns)
-
-
-# # Accounts database creation and testing code.
+#
+# # Accounts database creation.
 # accounts_table = "accounts_database"
-# accounts_database_columns = '''(id INTEGER PRIMARY KEY AUTOINCREMENT,
-#              'Name of Account' TEXT,
-#             'Type of Account' TEXT,
-#             'Amount in Account' NUMERIC)'''
-# db = TransactionDatabase()
+# accounts_database_columns = '''('Name of Account' TEXT,
+#                                 'Type of Account' TEXT,
+#                                 'Amount in Account' NUMERIC)'''
 # db.delete_table(accounts_table)
-# db.create_table(accounts_table, transaction_database_columns)
+# db.create_table(accounts_table, accounts_database_columns)
+#
+# # Create transaction category database.
+# transaction_categories_table = "transaction_categories"
+# transaction_categories_columns = '''(transaction_category TEXT,
+#                                     transaction_category_amount NUMERIC)'''
+# db.delete_table(transaction_categories_table)
+# db.create_table(transaction_categories_table, transaction_categories_columns)
+
+# # Create account data
+# db.add_account("US Bank Checking", "Checking")
+# db.add_account("US Bank Savings", "Savings")
+# db.add_account("Cash in Wallet", "Cash")
+#
+# # Create transaction categories
+# db.add_transaction_category("Income")
+# db.add_transaction_category("Recreation")
+# db.add_transaction_category("Bills")
