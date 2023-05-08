@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>112</height>
+    <width>509</width>
+    <height>122</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,7 +28,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Description and Amount must be filled out.</string>
+      <string>Description, Category, and Amount must be filled out.</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

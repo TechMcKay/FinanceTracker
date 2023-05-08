@@ -1,6 +1,7 @@
 from ft_mainwindow import Ui_MainWindow
 from transaction_tab import TransactionTab
 from accounts_tab import AccountsTab
+from graphing_feature import GraphingCriteriaWindow
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QLineEdit, QPushButton
@@ -19,7 +20,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.transaction_tab = TransactionTab(self)
         # Accounts Tab
         self.accounts_tab = AccountsTab(self)
-
+        # Connection to graphing_feature file
+        self.graphing_criteria_dlg = GraphingCriteriaWindow()
+        # Opens graphing_criteria_dlg
+        self.actionCreate_Graphs.triggered.connect(self.graphing_criteria_dlg.open_window)
 
 app = QApplication(sys.argv)
 

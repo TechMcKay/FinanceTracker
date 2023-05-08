@@ -41,6 +41,8 @@ class Ui_MainWindow(object):
         self.actionAdd_Transaction_Category.setObjectName(u"actionAdd_Transaction_Category")
         self.actionAdd_Account = QAction(MainWindow)
         self.actionAdd_Account.setObjectName(u"actionAdd_Account")
+        self.actionCreate_Graphs = QAction(MainWindow)
+        self.actionCreate_Graphs.setObjectName(u"actionCreate_Graphs")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -201,11 +203,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.addTransactionButton)
 
         self.main_tabWidget.addTab(self.transactions_tab, "")
-        self.add_account_window = QWidget()
-        self.add_account_window.setObjectName(u"accounts_tab")
-        self.verticalLayout = QVBoxLayout(self.add_account_window)
+        self.accounts_tab = QWidget()
+        self.accounts_tab.setObjectName(u"accounts_tab")
+        self.verticalLayout = QVBoxLayout(self.accounts_tab)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.accounts_tree = QTreeWidget(self.add_account_window)
+        self.accounts_tree = QTreeWidget(self.accounts_tab)
         __qtreewidgetitem = QTreeWidgetItem()
         __qtreewidgetitem.setText(0, u"1");
         self.accounts_tree.setHeaderItem(__qtreewidgetitem)
@@ -213,10 +215,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.accounts_tree)
 
-        self.main_tabWidget.addTab(self.add_account_window, "")
-        self.graph_tab = QWidget()
-        self.graph_tab.setObjectName(u"graph_tab")
-        self.main_tabWidget.addTab(self.graph_tab, "")
+        self.main_tabWidget.addTab(self.accounts_tab, "")
 
         self.horizontalLayout.addWidget(self.main_tabWidget)
 
@@ -228,8 +227,6 @@ class Ui_MainWindow(object):
         self.menuFile.setObjectName(u"menuFile")
         self.menuEdit = QMenu(self.menubar)
         self.menuEdit.setObjectName(u"menuEdit")
-        self.menuWindow = QMenu(self.menubar)
-        self.menuWindow.setObjectName(u"menuWindow")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -246,13 +243,10 @@ class Ui_MainWindow(object):
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
-        self.menubar.addAction(self.menuWindow.menuAction())
-        self.menuFile.addSeparator()
-        self.menuFile.addSeparator()
-        self.menuFile.addAction(self.actionopen)
-        self.menuFile.addAction(self.actionsave)
-        self.menuEdit.addAction(self.actionAdd_Transaction_Category)
         self.menuEdit.addAction(self.actionAdd_Account)
+        self.menuEdit.addAction(self.actionAdd_Transaction_Category)
+        self.menuEdit.addSeparator()
+        self.menuEdit.addAction(self.actionCreate_Graphs)
 
         self.retranslateUi(MainWindow)
 
@@ -268,6 +262,7 @@ class Ui_MainWindow(object):
         self.actionsave.setText(QCoreApplication.translate("MainWindow", u"save", None))
         self.actionAdd_Transaction_Category.setText(QCoreApplication.translate("MainWindow", u"Add Transaction Category", None))
         self.actionAdd_Account.setText(QCoreApplication.translate("MainWindow", u"Add Account", None))
+        self.actionCreate_Graphs.setText(QCoreApplication.translate("MainWindow", u"Create Graphs", None))
         self.transactionFilterLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here to filter table", None))
         self.deleteTransactionButton.setText(QCoreApplication.translate("MainWindow", u"Delete Transaction", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Date", None))
@@ -282,10 +277,8 @@ class Ui_MainWindow(object):
         self.memoTextEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter Memo", None))
         self.addTransactionButton.setText(QCoreApplication.translate("MainWindow", u"Add Transaction", None))
         self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.transactions_tab), QCoreApplication.translate("MainWindow", u"Transactions", None))
-        self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.add_account_window), QCoreApplication.translate("MainWindow", u"My Accounts", None))
-        self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.graph_tab), QCoreApplication.translate("MainWindow", u"Graphs", None))
+        self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.accounts_tab), QCoreApplication.translate("MainWindow", u"My Accounts", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuEdit.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
-        self.menuWindow.setTitle(QCoreApplication.translate("MainWindow", u"Window", None))
     # retranslateUi
 

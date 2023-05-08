@@ -1,18 +1,17 @@
-from ft_mainwindow import Ui_MainWindow
 from PySide6.QtCore import Qt, QRegularExpression, QDate, Signal, QSortFilterProxyModel
 from PySide6.QtGui import QRegularExpressionValidator, QAction
 from PySide6.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 from PySide6.QtWidgets import (
     QTableView, QPushButton, QDateEdit,
     QComboBox, QPlainTextEdit, QLineEdit, QAbstractItemView,
-    QDialog, QMainWindow, QWidget, QListView
+    QDialog, QMainWindow
 )
 
-from data_base_module import TransactionDatabase
 from accounts_tab import AddAccountWindow, AccountsTab
+from data_base_module import TransactionDatabase
 from emptyTransaction_Dialog import Ui_Dialog
-from payee_same_as_accountTransaction_Dialog import Ui_PayeeIsAccountDialog
 from ft_mainwindow import Ui_MainWindow
+from payee_same_as_accountTransaction_Dialog import Ui_PayeeIsAccountDialog
 from transactionCategoryWindow import Ui_transactionCategoryWindow
 
 
@@ -216,7 +215,7 @@ class TransactionTab(Ui_MainWindow):
             # Creation of data to add list
             data_to_add = [description, category, account, payee, amount, date, memo]
             # Checking for non NaN data
-            if data_to_add[0] and data_to_add[5]:
+            if data_to_add[0] and data_to_add[1] and data_to_add[5]:
                 # Check to see if account is the same as payee
                 if account != payee:
                     self.db.apply_amount_to_databases(account, float(amount_text), category)
@@ -232,6 +231,8 @@ class TransactionTab(Ui_MainWindow):
                     self.descriptionTextEdit.clear()
                     self.memoTextEdit.clear()
                     self.amountLineEdit.clear()
+                    self.payee_comboBox.clear()
+                    self.populate_payee_combobox()
                     # Check for Payee to be an account
                     account_names = self.db.get_account_names()
                     if payee in account_names:

@@ -354,11 +354,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="graph_tab">
-       <attribute name="title">
-        <string>Graphs</string>
-       </attribute>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -376,26 +371,18 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="actionopen"/>
-    <addaction name="actionsave"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
      <string>Edit</string>
     </property>
-    <addaction name="actionAdd_Transaction_Category"/>
     <addaction name="actionAdd_Account"/>
-   </widget>
-   <widget class="QMenu" name="menuWindow">
-    <property name="title">
-     <string>Window</string>
-    </property>
+    <addaction name="actionAdd_Transaction_Category"/>
+    <addaction name="separator"/>
+    <addaction name="actionCreate_Graphs"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuWindow"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionopen">
@@ -416,6 +403,11 @@
   <action name="actionAdd_Account">
    <property name="text">
     <string>Add Account</string>
+   </property>
+  </action>
+  <action name="actionCreate_Graphs">
+   <property name="text">
+    <string>Create Graphs</string>
    </property>
   </action>
  </widget>

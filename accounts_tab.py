@@ -1,13 +1,13 @@
-from PySide6.QtWidgets import (
-    QTreeWidget, QTreeWidgetItem, QDialog, QListView, QPushButton, QLineEdit,
-    QComboBox, QTabWidget, QMainWindow
-)
-from PySide6.QtGui import QAction
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
-from ft_mainwindow import Ui_MainWindow
-from data_base_module import TransactionDatabase
+from PySide6.QtWidgets import (
+    QTreeWidget, QTreeWidgetItem, QDialog, QPushButton, QLineEdit,
+    QComboBox, QTabWidget
+)
 from add_account_window import Ui_Dialog
+from data_base_module import TransactionDatabase
+from ft_mainwindow import Ui_MainWindow
 
 
 class AddAccountWindow(QDialog, Ui_Dialog):
@@ -40,9 +40,9 @@ class AddAccountWindow(QDialog, Ui_Dialog):
             # Clear user input
             self.account_name_lineEdit.clear()
 
-            # Updating Transaction tab with new accounts
-            self.transaction_tab.populate_account_combobox()
-            self.transaction_tab.populate_payee_combobox()
+        # Updating Transaction tab with new accounts
+        self.transaction_tab.populate_account_combobox()
+        self.transaction_tab.populate_payee_combobox()
 
 
 class AccountsTab(Ui_MainWindow):

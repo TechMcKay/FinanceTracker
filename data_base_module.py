@@ -1,5 +1,4 @@
 import sqlite3
-from datetime import datetime
 
 
 class TransactionDatabase:
@@ -73,13 +72,18 @@ class TransactionDatabase:
                 '''UPDATE transaction_categories SET transaction_category_amount = transaction_category_amount + ?
                 WHERE transaction_category = ?''', (amount, trans_category))
 
-
     def add_account(self, account_name, account_category):
         with self.conn:
             self.c.execute(
                 f'INSERT INTO accounts_database ("Name of Account", "Type of Account", "Amount in Account")'
                 f' VALUES ("{account_name}", "{account_category}", 0);')
 
+    def pie_chart_data(self, database):
+        with self.conn:
+            self.c.execute(
+                f" SELECT * FROM {database}")
+            results = self.c.fetchall()
+            return results
 
 # # Create connection to database
 # db = TransactionDatabase()
@@ -112,13 +116,20 @@ class TransactionDatabase:
 #                                     transaction_category_amount NUMERIC)'''
 # db.delete_table(transaction_categories_table)
 # db.create_table(transaction_categories_table, transaction_categories_columns)
-
+#
 # # Create account data
 # db.add_account("US Bank Checking", "Checking")
+# db.add_account("Bank of America Checking", "Checking")
 # db.add_account("US Bank Savings", "Savings")
 # db.add_account("Cash in Wallet", "Cash")
+# db.add_account("US Bank Credit Card", "Credit")
+# db.add_account("Bank of America Credit Card", "Credit")
 #
 # # Create transaction categories
 # db.add_transaction_category("Income")
 # db.add_transaction_category("Recreation")
 # db.add_transaction_category("Bills")
+# db.add_transaction_category("Miscellaneous")
+# db.add_transaction_category("Savings")
+# db.add_transaction_category("Housing")
+
