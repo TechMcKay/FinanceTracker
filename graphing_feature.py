@@ -14,16 +14,6 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
         # Move window
         self.move(400, 100)
 
-        # Create asset chart
-        # self.asset_chart = QChart()
-        # self.asset_chart_view = QChartView(self.asset_chart)
-        # self.asset_chart_view.setRenderHint(QPainter.Antialiasing)
-
-        # # Create debt chart
-        # self.debt_chart = QChart()
-        # self.debt_chart_view = QChartView(self.debt_chart)
-        # self.debt_chart_view.setRenderHint(QPainter.Antialiasing)
-
         self.account_chart_splitter = QSplitter()
         self.category_chart_splitter = QSplitter()
 
@@ -33,10 +23,6 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
 
         # Set connection to database
         self.db = TransactionDatabase()
-
-        # Create pie series
-        # self.asset_series = QPieSeries()
-        # self.debt_series = QPieSeries()
 
         # Flag to track whether charts are displayed
         self.account_charts_displayed = False
@@ -75,11 +61,11 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
 
             # Populate asset pie charts with data
             for account_info in data:
-                if float(account_info[2]) >= 0:
+                if float(account_info[2]) >= 1:
                     asset_series.append(account_info[0], float(account_info[2]))
                     slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[2])}"
                     asset_series.slices()[-1].setLabel(slice_label)
-                else:
+                elif float(account_info[2]) < 0:
                     debt_series.append(account_info[0], float(account_info[2]))
                     slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[2])}"
                     debt_series.slices()[-1].setLabel(slice_label)
@@ -120,17 +106,13 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
             category_spent_view = QChartView(category_spent_chart)
             category_spent_view.setRenderHint(QPainter.Antialiasing)
 
-            # Populate asset pie charts with data
+            # Populate category pie charts with data
             for account_info in data:
-                if float(account_info[1]) >= 0:
-                    if float(account_info[1]) == 0:
-                        continue
+                if float(account_info[1]) >= 1:
                     category_income_series.append(account_info[0], float(account_info[1]))
                     slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[1])}"
                     category_income_series.slices()[-1].setLabel(slice_label)
-                else:
-                    if float(account_info[1]) == 0:
-                        continue
+                elif float(account_info[1]) < 0:
                     category_spent_series.append(account_info[0], float(account_info[1]))
                     slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[1])}"
                     category_spent_series.slices()[-1].setLabel(slice_label)

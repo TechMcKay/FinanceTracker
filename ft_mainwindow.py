@@ -8,20 +8,15 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-    QCursor, QFont, QFontDatabase, QGradient,
-    QIcon, QImage, QKeySequence, QLinearGradient,
-    QPainter, QPalette, QPixmap, QRadialGradient,
-    QTransform)
-from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDateEdit,
-    QGridLayout, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QSplitter,
-    QStatusBar, QTabWidget, QTableView, QTreeWidget,
-    QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QDate, QMetaObject, QRect,
+                            QSize, Qt)
+from PySide6.QtGui import (QAction, QFont)
+from PySide6.QtWidgets import (QAbstractScrollArea, QComboBox, QDateEdit,
+                               QGridLayout, QHBoxLayout, QLabel,
+                               QLineEdit, QMenu, QMenuBar,
+                               QPlainTextEdit, QPushButton, QSizePolicy, QSplitter,
+                               QStatusBar, QTabWidget, QTableView, QTreeWidget,
+                               QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -43,6 +38,12 @@ class Ui_MainWindow(object):
         self.actionAdd_Account.setObjectName(u"actionAdd_Account")
         self.actionCreate_Graphs = QAction(MainWindow)
         self.actionCreate_Graphs.setObjectName(u"actionCreate_Graphs")
+        self.actionAdd_Account_2 = QAction(MainWindow)
+        self.actionAdd_Account_2.setObjectName(u"actionAdd_Account_2")
+        self.actionAdd_Transaction_Category_2 = QAction(MainWindow)
+        self.actionAdd_Transaction_Category_2.setObjectName(u"actionAdd_Transaction_Category_2")
+        self.actionCreate_Graphs_2 = QAction(MainWindow)
+        self.actionCreate_Graphs_2.setObjectName(u"actionCreate_Graphs_2")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
@@ -124,6 +125,7 @@ class Ui_MainWindow(object):
         self.accountComboBox = QComboBox(self.transactions_tab)
         self.accountComboBox.setObjectName(u"accountComboBox")
         self.accountComboBox.setFont(font)
+
         self.accountComboBox.setContextMenuPolicy(Qt.NoContextMenu)
         self.accountComboBox.setEditable(False)
 
@@ -225,8 +227,6 @@ class Ui_MainWindow(object):
         self.menubar.setGeometry(QRect(0, 0, 1183, 21))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
-        self.menuEdit = QMenu(self.menubar)
-        self.menuEdit.setObjectName(u"menuEdit")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -242,11 +242,10 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.memoTextEdit, self.addTransactionButton)
 
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuEdit.menuAction())
-        self.menuEdit.addAction(self.actionAdd_Account)
-        self.menuEdit.addAction(self.actionAdd_Transaction_Category)
-        self.menuEdit.addSeparator()
-        self.menuEdit.addAction(self.actionCreate_Graphs)
+        self.menuFile.addAction(self.actionAdd_Account_2)
+        self.menuFile.addAction(self.actionAdd_Transaction_Category_2)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionCreate_Graphs_2)
 
         self.retranslateUi(MainWindow)
 
@@ -263,6 +262,9 @@ class Ui_MainWindow(object):
         self.actionAdd_Transaction_Category.setText(QCoreApplication.translate("MainWindow", u"Add Transaction Category", None))
         self.actionAdd_Account.setText(QCoreApplication.translate("MainWindow", u"Add Account", None))
         self.actionCreate_Graphs.setText(QCoreApplication.translate("MainWindow", u"Create Graphs", None))
+        self.actionAdd_Account_2.setText(QCoreApplication.translate("MainWindow", u"Add Account", None))
+        self.actionAdd_Transaction_Category_2.setText(QCoreApplication.translate("MainWindow", u"Add Transaction Category", None))
+        self.actionCreate_Graphs_2.setText(QCoreApplication.translate("MainWindow", u"Create Graphs", None))
         self.transactionFilterLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Type here to filter table", None))
         self.deleteTransactionButton.setText(QCoreApplication.translate("MainWindow", u"Delete Transaction", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Date", None))
@@ -279,6 +281,5 @@ class Ui_MainWindow(object):
         self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.transactions_tab), QCoreApplication.translate("MainWindow", u"Transactions", None))
         self.main_tabWidget.setTabText(self.main_tabWidget.indexOf(self.accounts_tab), QCoreApplication.translate("MainWindow", u"My Accounts", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
-        self.menuEdit.setTitle(QCoreApplication.translate("MainWindow", u"Edit", None))
     # retranslateUi
 

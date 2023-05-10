@@ -48,7 +48,7 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
+        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Graphing Window", None))
         self.pushButton_graph_accounts.setText(QCoreApplication.translate("Dialog", u"Graph Accounts", None))
         self.pushButton_graph_transaciton_categories.setText(QCoreApplication.translate("Dialog", u"Graph Transaction Categories", None))
     # retranslateUi

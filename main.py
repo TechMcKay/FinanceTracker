@@ -1,14 +1,14 @@
-from ft_mainwindow import Ui_MainWindow
-from transaction_tab import TransactionTab
-from accounts_tab import AccountsTab
-from graphing_feature import GraphingCriteriaWindow
-from PySide6.QtGui import QAction
+import sys
+
 from PySide6.QtWidgets import (
-    QMainWindow, QApplication, QLineEdit, QPushButton
+    QMainWindow, QApplication
 
 )
-from PySide6 import QtWidgets
-import sys
+
+from accounts_tab import AccountsTab
+from ft_mainwindow import Ui_MainWindow
+from graphing_feature import GraphingCriteriaWindow
+from transaction_tab import TransactionTab
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -23,7 +23,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Connection to graphing_feature file
         self.graphing_criteria_dlg = GraphingCriteriaWindow()
         # Opens graphing_criteria_dlg
-        self.actionCreate_Graphs.triggered.connect(self.graphing_criteria_dlg.open_window)
+        self.actionCreate_Graphs_2.triggered.connect(self.graphing_criteria_dlg.open_window)
+
 
 app = QApplication(sys.argv)
 

@@ -113,7 +113,7 @@ class TransactionTab(Ui_MainWindow):
         self.amountLineEdit.setMaxLength(11)
 
         # Set up signal for add transaction Category.
-        self.actionEnter_Edit_Transaction_Categories = self.parent.findChild(QAction, "actionAdd_Transaction_Category")
+        self.actionEnter_Edit_Transaction_Categories = self.parent.findChild(QAction, "actionAdd_Transaction_Category_2")
         self.actionEnter_Edit_Transaction_Categories.triggered.connect(self.open_transaction_category_window)
 
         # Populate account names combo box with existing account names.
@@ -308,6 +308,7 @@ class TransactionTab(Ui_MainWindow):
         self.categoryComboBox.addItems(transaction_categories)
         model = self.categoryComboBox.model()
         model.sort(0)
+        self.categoryComboBox.setCurrentIndex(0)
         self.payee_comboBox.setCurrentIndex(-1)
 
     def apply_filter(self, text):

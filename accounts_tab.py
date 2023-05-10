@@ -60,7 +60,7 @@ class AccountsTab(Ui_MainWindow):
         self.parent.accounts_tree.setColumnWidth(0, 300)
 
         # Setting up Add Account window signals and connections
-        self.actionAdd_Account = self.parent.findChild(QAction, "actionAdd_Account")
+        self.actionAdd_Account = self.parent.findChild(QAction, "actionAdd_Account_2")
         self.actionAdd_Account.triggered.connect(self.open_add_account_window)
         self.main_tabWidget = self.parent.findChild(QTabWidget, "main_tabWidget")
         self.add_account_window = AddAccountWindow(self.parent, self, self.parent.transaction_tab)
@@ -114,7 +114,6 @@ class AccountsTab(Ui_MainWindow):
             self.accounts_tree.sortByColumn(0, Qt.AscendingOrder)
 
     def open_add_account_window(self):
-        # add_account_window = AddAccountWindow(self.parent, self, self.parent.transaction_tab)
         # Go to My Account tab
         self.main_tabWidget.setCurrentIndex(1)
         self.add_account_window.show()
