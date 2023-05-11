@@ -4,8 +4,8 @@ This application was created to provide a simple solution for managing finances.
 ## Program Description:
 This program allows users to easily track all of their financial accounts along with all transactions. Users can generate graphs in order to analyze the data to aid in financial decisions or just understand there overall financial position.
 This program utilizes the following Python libraries:
-		Pyside6 - To create user interface.
-		SQLite3 - For storing and accessing data.
+- Pyside6 - To create user interface.
+- SQLite3 - For storing and accessing data.
 
 ## Dependencies
 
