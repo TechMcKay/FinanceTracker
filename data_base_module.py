@@ -116,7 +116,7 @@ class TransactionDatabase:
 #                                     transaction_category_amount NUMERIC)'''
 # db.delete_table(transaction_categories_table)
 # db.create_table(transaction_categories_table, transaction_categories_columns)
-
+#
 # # Create account data
 # db.add_account("US Bank Checking", "Checking")
 # db.add_account("Bank of America Checking", "Checking")

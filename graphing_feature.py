@@ -12,14 +12,16 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
         super().__init__(parent)
         self.setupUi(self)
         # Move window
-        self.move(400, 100)
+        self.move(400, 50)
 
         self.account_chart_splitter = QSplitter()
         self.category_chart_splitter = QSplitter()
 
         # Connect buttons
         self.pushButton_graph_accounts.clicked.connect(self.account_pie_charts)
-        self.pushButton_graph_transaciton_categories.clicked.connect(self.transaction_categories_pie_charts)
+        self.pushButton_graph_transaciton_categories.clicked.connect(
+            self.transaction_categories_pie_charts
+        )
 
         # Set connection to database
         self.db = TransactionDatabase()
@@ -37,14 +39,13 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
             self.transaction_charts_displayed = False
             self.category_chart_splitter = QSplitter()
         if not self.account_charts_displayed:
-
             # Create asset pie chart
             asset_chart = QChart()
             asset_series = QPieSeries()
             asset_chart_view = QChartView(asset_chart)
             asset_chart_view.setRenderHint(QPainter.Antialiasing)
             asset_chart.addSeries(asset_series)
-            asset_chart.setTitle('Account Totals')
+            asset_chart.setTitle("Account Totals")
             asset_chart.legend().setAlignment(Qt.AlignLeft)
 
             # Create debt pie chart
@@ -53,7 +54,7 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
             debt_chart_view = QChartView(debt_chart)
             debt_chart_view.setRenderHint(QPainter.Antialiasing)
             debt_chart.addSeries(debt_series)
-            debt_chart.setTitle('Debt Totals')
+            debt_chart.setTitle("Debt Totals")
             debt_chart.legend().setAlignment(Qt.AlignLeft)
 
             # get data from database
@@ -63,15 +64,19 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
             for account_info in data:
                 if float(account_info[2]) >= 1:
                     asset_series.append(account_info[0], float(account_info[2]))
-                    slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[2])}"
+                    slice_label = (
+                        f"{account_info[0]}\nTotal Amount: {str(account_info[2])}"
+                    )
                     asset_series.slices()[-1].setLabel(slice_label)
                 elif float(account_info[2]) < 0:
                     debt_series.append(account_info[0], float(account_info[2]))
-                    slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[2])}"
+                    slice_label = (
+                        f"{account_info[0]}\nTotal Amount: {str(account_info[2])}"
+                    )
                     debt_series.slices()[-1].setLabel(slice_label)
 
             # Add pie charts to splitter
-            self.account_chart_splitter.setObjectName(u"account_chart_splitter")
+            self.account_chart_splitter.setObjectName("account_chart_splitter")
             self.account_chart_splitter.setOrientation(Qt.Vertical)
             self.account_chart_splitter.addWidget(asset_chart_view)
             self.account_chart_splitter.addWidget(debt_chart_view)
@@ -79,7 +84,7 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
 
             # Place splitter in window
             self.verticalLayout.addWidget(self.account_chart_splitter)
-            self.resize(900, 900)
+            self.resize(700, 700)
 
             # Set flag to True
             self.account_charts_displayed = True
@@ -90,7 +95,6 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
             self.account_charts_displayed = False
             self.account_chart_splitter = QSplitter()
         if not self.transaction_charts_displayed:
-
             # Create category series
             category_income_series = QPieSeries()
             category_spent_series = QPieSeries()
@@ -109,28 +113,36 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
             # Populate category pie charts with data
             for account_info in data:
                 if float(account_info[1]) >= 1:
-                    category_income_series.append(account_info[0], float(account_info[1]))
-                    slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[1])}"
+                    category_income_series.append(
+                        account_info[0], float(account_info[1])
+                    )
+                    slice_label = (
+                        f"{account_info[0]}\nTotal Amount: {str(account_info[1])}"
+                    )
                     category_income_series.slices()[-1].setLabel(slice_label)
                 elif float(account_info[1]) < 0:
-                    category_spent_series.append(account_info[0], float(account_info[1]))
-                    slice_label = f"{account_info[0]}\nTotal Amount: {str(account_info[1])}"
+                    category_spent_series.append(
+                        account_info[0], float(account_info[1])
+                    )
+                    slice_label = (
+                        f"{account_info[0]}\nTotal Amount: {str(account_info[1])}"
+                    )
                     category_spent_series.slices()[-1].setLabel(slice_label)
 
             # Create Category Totals(Income) pie chart
             category_income_chart.addSeries(category_income_series)
-            category_income_chart.setTitle('Category Totals(Income)')
+            category_income_chart.setTitle("Category Totals(Income)")
             category_income_chart.legend().setAlignment(Qt.AlignLeft)
             category_income_view = QChartView(category_income_chart)
 
             # Create debt pie chart
             category_spent_chart.addSeries(category_spent_series)
-            category_spent_chart.setTitle('Category Totals(Spent)')
+            category_spent_chart.setTitle("Category Totals(Spent)")
             category_spent_chart.legend().setAlignment(Qt.AlignLeft)
             category_spent_view = QChartView(category_spent_chart)
 
             # Add pie charts to splitter
-            self.category_chart_splitter.setObjectName(u"category_chart_splitter")
+            self.category_chart_splitter.setObjectName("category_chart_splitter")
             self.category_chart_splitter.setOrientation(Qt.Vertical)
             self.category_chart_splitter.addWidget(category_income_view)
             self.category_chart_splitter.addWidget(category_spent_view)
@@ -138,7 +150,7 @@ class GraphingCriteriaWindow(QDialog, Ui_Dialog):
 
             # Place splitter in window
             self.verticalLayout.addWidget(self.category_chart_splitter)
-            self.resize(900, 900)
+            self.resize(700, 700)
 
             # Set flag to True
             self.transaction_charts_displayed = True

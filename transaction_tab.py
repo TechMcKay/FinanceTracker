@@ -93,7 +93,6 @@ class TransactionTab(Ui_MainWindow):
         self.db = TransactionDatabase()
         # Set up accounts_tab connections
         self.add_account_window = AddAccountWindow()
-        # self.accounts_tab = AccountsTab(self) ## here is the issue with the double call to add account issue
         # Call the create_table_model function
         self.create_table_model()
         # Add all inputs and signals for add transactions.
@@ -126,6 +125,7 @@ class TransactionTab(Ui_MainWindow):
         self.populate_transaction_categories()
 
     def create_table_model(self):
+
         # Create a database connection
         db = QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName('finance_tracker_data.db')
@@ -153,6 +153,7 @@ class TransactionTab(Ui_MainWindow):
             # Connect the dataChanged signal to the submit_changes method
             QAbstractItemView.scrollToBottom(self.transaction_table)
             self.model.dataChanged.connect(self.submit_changes)
+            db.close()
         else:
             print("Error: Unable to open the database.")
 

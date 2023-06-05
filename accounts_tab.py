@@ -2,8 +2,13 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlTableModel
 from PySide6.QtWidgets import (
-    QTreeWidget, QTreeWidgetItem, QDialog, QPushButton, QLineEdit,
-    QComboBox, QTabWidget
+    QTreeWidget,
+    QTreeWidgetItem,
+    QDialog,
+    QPushButton,
+    QLineEdit,
+    QComboBox,
+    QTabWidget,
 )
 from add_account_window import Ui_Dialog
 from data_base_module import TransactionDatabase
@@ -22,8 +27,12 @@ class AddAccountWindow(QDialog, Ui_Dialog):
         self.transaction_tab = transaction_tab
 
         self.account_name_lineEdit = self.findChild(QLineEdit, "account_name_lineEdit")
-        self.account_category_comboBox = self.findChild(QComboBox, "account_category_comboBox")
-        self.add_account_pushButton = self.findChild(QPushButton, "add_account_pushButton")
+        self.account_category_comboBox = self.findChild(
+            QComboBox, "account_category_comboBox"
+        )
+        self.add_account_pushButton = self.findChild(
+            QPushButton, "add_account_pushButton"
+        )
         self.add_account_pushButton.clicked.connect(self.add_account)
 
     def add_account(self):
@@ -56,14 +65,16 @@ class AccountsTab(Ui_MainWindow):
         # Setting up Accounts Tree(QTreeWidget)
         self.accounts_tree = self.parent.findChild(QTreeWidget, "accounts_tree")
         self.parent.accounts_tree.setColumnCount(2)
-        self.parent.accounts_tree.setHeaderLabels(['Accounts', 'Amount'])
+        self.parent.accounts_tree.setHeaderLabels(["Accounts", "Amount"])
         self.parent.accounts_tree.setColumnWidth(0, 300)
 
         # Setting up Add Account window signals and connections
         self.actionAdd_Account = self.parent.findChild(QAction, "actionAdd_Account_2")
         self.actionAdd_Account.triggered.connect(self.open_add_account_window)
         self.main_tabWidget = self.parent.findChild(QTabWidget, "main_tabWidget")
-        self.add_account_window = AddAccountWindow(self.parent, self, self.parent.transaction_tab)
+        self.add_account_window = AddAccountWindow(
+            self.parent, self, self.parent.transaction_tab
+        )
 
         # set up transactions database connection
         self.db = TransactionDatabase()
@@ -71,47 +82,40 @@ class AccountsTab(Ui_MainWindow):
         AccountsTab.populate_account_tree(self)
 
     def populate_account_tree(self):
-        # Create a database connection
-        db = QSqlDatabase.addDatabase('QSQLITE')
-        db.setDatabaseName('finance_tracker_data.db')
+        # Clear existing data
+        self.accounts_tree.clear()
+        # Create a QSqlTableModel for the 'transaction_database' table
+        self.model = QSqlTableModel()
+        self.model.setTable("accounts_database")
+        self.model.select()
 
-        # Open the connection to the database
-        if db.open():
+        # Set up and execute query
+        query = QSqlQuery(self.model.database())
+        query_text = "SELECT * FROM accounts_database ORDER BY 'Type of Account'"
+        query.exec(query_text)
 
-            # Clear existing data
-            self.accounts_tree.clear()
-            # Create a QSqlTableModel for the 'transaction_database' table
-            self.model = QSqlTableModel(db=db)
-            self.model.setTable('accounts_database')
-            self.model.select()
+        # Create dictionary of parents and children
+        data_dict = {}
+        while query.next():
+            tree_parent = query.value(1)
+            child = query.value(0)
+            amount = query.value(2)
+            if tree_parent not in data_dict:
+                data_dict[tree_parent] = []
+            data_dict[tree_parent].append((child, amount))
 
-            # Set up and execute query
-            query = QSqlQuery(self.model.database())
-            query_text = "SELECT * FROM accounts_database ORDER BY 'Type of Account'"
-            query.exec(query_text)
-
-            # Create dictionary of parents and children
-            data_dict = {}
-            while query.next():
-                tree_parent = query.value(1)
-                child = query.value(0)
-                amount = query.value(2)
-                if tree_parent not in data_dict:
-                    data_dict[tree_parent] = []
-                data_dict[tree_parent].append((child, amount))
-
-            # Populate tree with dictionary
-            for tree_parent, children in data_dict.items():
-                parent_item = QTreeWidgetItem(self.accounts_tree, [tree_parent])
-                for child in children:
-                    child_item = QTreeWidgetItem(parent_item, child)
-                    child_item.setText(1, str(child[1]))
-                self.accounts_tree.insertTopLevelItem(0, parent_item)
-                parent_item.setExpanded(True)
-            # Close Query connection
-            query.clear()
-            # Sort tree view
-            self.accounts_tree.sortByColumn(0, Qt.AscendingOrder)
+        # Populate tree with dictionary
+        for tree_parent, children in data_dict.items():
+            parent_item = QTreeWidgetItem(self.accounts_tree, [tree_parent])
+            for child in children:
+                child_item = QTreeWidgetItem(parent_item, child)
+                child_item.setText(1, str(child[1]))
+            self.accounts_tree.insertTopLevelItem(0, parent_item)
+            parent_item.setExpanded(True)
+        # Close Query connection
+        query.clear()
+        # Sort tree view
+        self.accounts_tree.sortByColumn(0, Qt.AscendingOrder)
 
     def open_add_account_window(self):
         # Go to My Account tab
